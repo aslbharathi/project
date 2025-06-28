@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_URL || 'https://mern-learnhub-app.onrender.com',
   timeout: 30000, // 30 seconds timeout
   headers: {
     'Content-Type': 'application/json',

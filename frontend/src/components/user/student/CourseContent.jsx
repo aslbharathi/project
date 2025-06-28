@@ -62,7 +62,7 @@ const CourseContent = () => {
    }, [courseId]);
 
    const playVideo = (videoPath, index) => {
-      const fullVideoPath = videoPath.startsWith('http') ? videoPath : `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}${videoPath}`;
+      const fullVideoPath = videoPath.startsWith('http') ? videoPath : `${import.meta.env.VITE_API_URL || 'https://mern-learnhub-app.onrender.com'}${videoPath}`;
       setCurrentVideo(fullVideoPath);
       setPlayingSectionIndex(index);
    };
