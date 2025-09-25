@@ -143,7 +143,7 @@ const ChatInterface = () => {
   }
 
   return (
-    <div className="container chat-container">
+    <div className="container chat-container fade-in">
       <button 
         className="language-toggle"
         onClick={toggleLanguage}
@@ -166,7 +166,7 @@ const ChatInterface = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1" style={{ overflowY: 'auto', padding: '1rem 0' }}>
+      <div className="flex-1" style={{ overflowY: 'auto', padding: '1rem 0', WebkitOverflowScrolling: 'touch' }}>
         {messages.map((message) => (
           <div
             key={message.id}
@@ -211,7 +211,11 @@ const ChatInterface = () => {
       </div>
 
       {/* Input Form */}
-      <div className="p-3" style={{ borderTop: '1px solid var(--gray-200)', backgroundColor: 'white' }}>
+      <div className="p-3" style={{ 
+        borderTop: '1px solid var(--gray-200)', 
+        backgroundColor: 'white',
+        paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))'
+      }}>
         <form onSubmit={handleSendMessage} className="flex items-center gap-2">
           <input
             type="text"
@@ -221,6 +225,8 @@ const ChatInterface = () => {
             className="flex-1 form-input"
             style={{ marginBottom: 0 }}
             disabled={isLoading}
+            autoComplete="off"
+            autoCapitalize="sentences"
           />
           
           <button

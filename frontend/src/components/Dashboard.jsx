@@ -91,7 +91,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="container dashboard-container">
+    <div className="container dashboard-container fade-in">
       <button 
         className="language-toggle"
         onClick={toggleLanguage}
@@ -114,7 +114,7 @@ const Dashboard = () => {
 
       {/* Weather Card */}
       {weather && (
-        <div className="card mb-4">
+        <div className="card mb-4 slide-up">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold mb-1">
@@ -139,11 +139,11 @@ const Dashboard = () => {
 
       {/* Farm Overview */}
       {farmData && (
-        <div className="card mb-4">
+        <div className="card mb-4 slide-up">
           <h3 className="font-semibold mb-3">
             {language === 'en' ? 'Farm Overview' : 'കൃഷിയിട വിവരണം'}
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
             <div>
               <p className="text-muted" style={{ fontSize: '0.875rem' }}>
                 {language === 'en' ? 'Current Crop' : 'നിലവിലെ വിള'}
@@ -178,7 +178,7 @@ const Dashboard = () => {
       )}
 
       {/* Recent Activities */}
-      <div className="card mb-4">
+      <div className="card mb-4 slide-up">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold">
             {language === 'en' ? 'Recent Activities' : 'സമീപകാല പ്രവർത്തനങ്ങൾ'}
@@ -212,7 +212,7 @@ const Dashboard = () => {
       </div>
 
       {/* Alerts */}
-      <div className="card">
+      <div className="card slide-up">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold">
             {language === 'en' ? 'Alerts' : 'മുന്നറിയിപ്പുകൾ'}

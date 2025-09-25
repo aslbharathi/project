@@ -1,3 +1,8 @@
+/* Import component styles first */
+@import './components.css';
+@import './utilities.css';
+@import './animations.css';
+
 :root {
   /* Kerala-inspired color palette */
   --primary-green: #2d5016;
@@ -74,8 +79,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
-
-/* Import component styles */
-@import './components.css';
-@import './utilities.css';
-@import './animations.css';
