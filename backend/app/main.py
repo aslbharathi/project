@@ -9,7 +9,7 @@ import os
 from dotenv import load_dotenv
 
 from app.database import connect_to_mongo, close_mongo_connection
-from app.routers import farm, chat, alerts, weather
+from app.routers import farm, chat, alerts, weather, auth, schemes, market, admin
 from app.middleware.auth import get_current_user_id
 from app.core.config import settings
 
@@ -64,10 +64,14 @@ async def health_check():
     }
 
 # Include routers
+app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(farm.router, prefix="/api/farm", tags=["farm"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 app.include_router(alerts.router, prefix="/api/alerts", tags=["alerts"])
 app.include_router(weather.router, prefix="/api/weather", tags=["weather"])
+app.include_router(schemes.router, prefix="/api/schemes", tags=["schemes"])
+app.include_router(market.router, prefix="/api/market", tags=["market"])
+app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 
 # Global exception handler
 @app.exception_handler(Exception)

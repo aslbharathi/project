@@ -23,6 +23,11 @@ const BottomNavigation = () => {
       label: language === 'en' ? 'Activity' : 'പ്രവർത്തനം'
     },
     {
+      path: '/market',
+      icon: '💰',
+      label: language === 'en' ? 'Market' : 'മാർക്കറ്റ്'
+    },
+    {
       path: '/alerts',
       icon: '🔔',
       label: language === 'en' ? 'Alerts' : 'മുന്നറിയിപ്പുകൾ'

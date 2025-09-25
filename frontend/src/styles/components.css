@@ -207,6 +207,24 @@
 }
 
 /* Navigation */
+.top-bar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: var(--spacing-md);
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -255,7 +273,7 @@
   text-decoration: none;
   font-size: 0.75rem;
   font-weight: 500;
-  min-width: 60px;
+  min-width: 50px;
   transition: color 0.2s ease;
   touch-action: manipulation;
 }
