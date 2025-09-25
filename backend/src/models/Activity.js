@@ -33,7 +33,12 @@ const activitySchema = new mongoose.Schema({
     rainfall: Number
   },
   images: [{
-    url: String,
+    url: { type: String, required: true },
+    public_id: String,
+    width: Number,
+    height: Number,
+    size: Number,
+    format: String,
     caption: String
   }],
   isDeleted: {

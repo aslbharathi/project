@@ -5,8 +5,10 @@ import {
   saveFarmProfile,
   getActivities,
   addActivity,
-  deleteActivity
+  deleteActivity,
+  uploadImages
 } from '../controllers/farmController.js'
+import upload from '../middleware/upload.js'
 
 const router = express.Router()
 
@@ -44,5 +46,8 @@ router.post('/activities', [
 ], addActivity)
 
 router.delete('/activities/:id', deleteActivity)
+
+// Image upload route
+router.post('/upload-images', upload.array('images', 5), uploadImages)
 
 export default router

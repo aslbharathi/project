@@ -3,6 +3,7 @@ import Farm from '../models/Farm.js'
 import Activity from '../models/Activity.js'
 import { validationResult } from 'express-validator'
 import { generateUserId } from '../utils/helpers.js'
+import { uploadToCloudinary } from '../config/cloudinary.js'
 
 // Get farm profile
 export const getFarmProfile = async (req, res) => {
@@ -194,6 +195,53 @@ export const deleteActivity = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error'
+    })
+  }
+}
+
+// Upload images
+export const uploadImages = async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'No images provided'
+      })
+    }
+
+    const userId = req.headers['x-user-id'] || generateUserId(req)
+    const uploadPromises = req.files.map(async (file) => {
+      try {
+        const result = await uploadToCloudinary(file.buffer, {
+          folder: `krishi-sakhi/users/${userId}/activities`
+        })
+        
+        return {
+          url: result.url,
+          public_id: result.public_id,
+          width: result.width,
+          height: result.height,
+          size: result.bytes,
+          format: result.format
+        }
+      } catch (error) {
+        console.error('Individual image upload error:', error)
+        throw error
+      }
+    })
+
+    const uploadedImages = await Promise.all(uploadPromises)
+
+    res.json({
+      success: true,
+      message: `${uploadedImages.length} images uploaded successfully`,
+      data: uploadedImages
+    })
+  } catch (error) {
+    console.error('Upload images error:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Failed to upload images'
     })
   }
 }
