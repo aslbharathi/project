@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 
-const AuthContext = createContext()
+export const AuthContext = createContext()
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
@@ -10,7 +10,7 @@ export const useAuth = () => {
   return context
 }
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [token, setToken] = useState(null)
@@ -126,5 +126,3 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   )
 }
-
-export default AuthProvider
