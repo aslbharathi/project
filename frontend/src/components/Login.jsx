@@ -36,7 +36,6 @@ const Login = () => {
     setTimeout(() => {
       setStep('otp')
       setIsLoading(false)
-      // In real app, show success message about OTP sent
     }, 1000)
   }
 
@@ -54,7 +53,7 @@ const Login = () => {
       const result = await login({
         mobile: formData.mobile,
         otp: formData.otp,
-        name: 'Farmer User' // Mock name
+        name: 'Farmer User'
       })
       
       if (result.success) {
@@ -70,35 +69,34 @@ const Login = () => {
   }
 
   return (
-    <div className="container" style={{ minHeight: '100vh', paddingTop: '2rem' }}>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
       <button 
-        className="language-toggle"
+        className="absolute top-4 right-4 bg-white border-2 border-gray-300 rounded-lg px-3 py-1 text-sm font-semibold shadow-md"
         onClick={toggleLanguage}
-        aria-label="Toggle Language"
       >
         {language === 'en' ? 'മലയാളം' : 'English'}
       </button>
 
-      <div style={{ paddingTop: '4rem' }}>
-        <div className="text-center mb-5">
-          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🌾</div>
-          <h1 className="font-bold text-primary" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>
+      <div className="max-w-md mx-auto pt-16">
+        <div className="text-center mb-8">
+          <div className="text-4xl mb-4">🌾</div>
+          <h1 className="text-2xl font-bold text-green-600 mb-2">
             {language === 'en' ? 'Krishi Sakhi' : 'കൃഷി സഖി'}
           </h1>
-          <p className="text-gray" style={{ fontSize: '1rem' }}>
+          <p className="text-gray-600">
             {language === 'en' ? 'Kerala Government Agriculture Department' : 'കേരള സർക്കാർ കൃഷി വകുപ്പ്'}
           </p>
         </div>
 
-        <div className="card">
-          <h2 className="font-bold text-center mb-4" style={{ fontSize: '1.5rem' }}>
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-bold text-center mb-6">
             {language === 'en' ? 'Login' : 'ലോഗിൻ'}
           </h2>
 
           {step === 'mobile' ? (
             <form onSubmit={handleSendOTP} className="space-y-4">
-              <div className="form-group">
-                <label className="form-label">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   {language === 'en' ? 'Mobile Number' : 'മൊബൈൽ നമ്പർ'}
                 </label>
                 <input
@@ -106,28 +104,26 @@ const Login = () => {
                   name="mobile"
                   value={formData.mobile}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-center text-lg focus:border-green-500 focus:outline-none"
                   placeholder={language === 'en' ? 'Enter 10-digit mobile number' : '10 അക്ക മൊബൈൽ നമ്പർ നൽകുക'}
                   maxLength="10"
-                  style={{ fontSize: '1.2rem', textAlign: 'center' }}
                 />
               </div>
 
               {error && (
-                <div className="alert alert-error">
-                  <p>{error}</p>
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                  {error}
                 </div>
               )}
 
               <button 
                 type="submit" 
-                className="btn btn-primary w-full"
+                className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                 disabled={isLoading}
-                style={{ fontSize: '1.1rem', padding: '1rem' }}
               >
                 {isLoading ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="loading-spinner" />
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                     {language === 'en' ? 'Sending OTP...' : 'OTP അയയ്ക്കുന്നു...'}
                   </div>
                 ) : (
@@ -140,7 +136,7 @@ const Login = () => {
           ) : (
             <form onSubmit={handleVerifyOTP} className="space-y-4">
               <div className="text-center mb-4">
-                <p className="text-gray">
+                <p className="text-gray-600">
                   {language === 'en' 
                     ? `OTP sent to ${formData.mobile}` 
                     : `${formData.mobile} ലേക്ക് OTP അയച്ചു`
@@ -148,8 +144,8 @@ const Login = () => {
                 </p>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   {language === 'en' ? 'Enter OTP' : 'OTP നൽകുക'}
                 </label>
                 <input
@@ -157,28 +153,26 @@ const Login = () => {
                   name="otp"
                   value={formData.otp}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-center text-xl tracking-widest focus:border-green-500 focus:outline-none"
                   placeholder={language === 'en' ? '6-digit OTP' : '6 അക്ക OTP'}
                   maxLength="6"
-                  style={{ fontSize: '1.5rem', textAlign: 'center', letterSpacing: '0.5rem' }}
                 />
               </div>
 
               {error && (
-                <div className="alert alert-error">
-                  <p>{error}</p>
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                  {error}
                 </div>
               )}
 
               <button 
                 type="submit" 
-                className="btn btn-primary w-full"
+                className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                 disabled={isLoading}
-                style={{ fontSize: '1.1rem', padding: '1rem' }}
               >
                 {isLoading ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="loading-spinner" />
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                     {language === 'en' ? 'Verifying...' : 'പരിശോധിക്കുന്നു...'}
                   </div>
                 ) : (
@@ -191,31 +185,21 @@ const Login = () => {
               <button 
                 type="button"
                 onClick={() => setStep('mobile')}
-                className="btn btn-secondary w-full"
-                style={{ fontSize: '1rem' }}
+                className="w-full border-2 border-gray-300 text-gray-600 py-3 px-4 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
               >
                 ← {language === 'en' ? 'Change Mobile Number' : 'മൊബൈൽ നമ്പർ മാറ്റുക'}
               </button>
             </form>
           )}
 
-          <div className="text-center mt-4">
-            <p className="text-muted">
+          <div className="text-center mt-6">
+            <p className="text-gray-600">
               {language === 'en' ? "Don't have an account?" : 'അക്കൗണ്ട് ഇല്ലേ?'}
             </p>
-            <Link to="/signup" className="text-primary font-semibold">
+            <Link to="/signup" className="text-green-600 font-semibold hover:text-green-700">
               {language === 'en' ? 'Sign Up Here' : 'ഇവിടെ സൈൻ അപ്പ് ചെയ്യുക'}
             </Link>
           </div>
-        </div>
-
-        <div className="text-center mt-4">
-          <p className="text-muted" style={{ fontSize: '0.875rem' }}>
-            {language === 'en' 
-              ? 'Secure login powered by Kerala Government'
-              : 'കേരള സർക്കാരിന്റെ സുരക്ഷിത ലോഗിൻ'
-            }
-          </p>
         </div>
       </div>
     </div>

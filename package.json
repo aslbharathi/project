@@ -3,14 +3,16 @@
   "version": "2.0.0",
   "description": "Digital Farming Assistant for Kerala Government",
   "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
-    "install:all": "npm install && cd frontend && npm install",
-    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "install:all": "npm install && npm --prefix frontend install",
+    "dev": "npm --prefix frontend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
-    "dev:backend": "echo 'Backend requires Python setup. Run: cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload --port 8000'",
-    "build": "cd frontend && npm run build",
-    "start": "npm run dev:frontend",
-    "test": "cd frontend && npm test"
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview",
+    "clean": "rm -rf node_modules frontend/node_modules frontend/dist"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

@@ -1,254 +1,128 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useFarmData } from '../contexts/FarmDataContext'
-import { farmService } from '../services/farmService'
-import { formatTimeAgo } from '../utils/helpers'
 
 const Dashboard = () => {
   const { language, toggleLanguage } = useLanguage()
   const { farmData } = useFarmData()
-  const [recentActivities, setRecentActivities] = useState([])
-  const [alerts, setAlerts] = useState([])
-  const [weather, setWeather] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    loadDashboardData()
-  }, [])
-
-  const loadDashboardData = async () => {
-    try {
-      setIsLoading(true)
-      
-      // Load recent activities
-      const activitiesData = await farmService.getActivities()
-      const activities = activitiesData?.data || activitiesData || []
-      setRecentActivities(Array.isArray(activities) ? activities.slice(0, 3) : [])
-      
-      // Load alerts
-      const alertsData = await farmService.getAlerts()
-      const alerts = alertsData?.data || alertsData || []
-      setAlerts(Array.isArray(alerts) ? alerts.slice(0, 3) : [])
-      
-      // Mock weather data
-      setWeather({
-        temperature: 28,
-        condition: 'partly_cloudy',
-        humidity: 75,
-        description: language === 'en' ? 'Partly cloudy' : 'ഭാഗികമായി മേഘാവൃതം'
-      })
-    } catch (error) {
-      console.error('Dashboard data loading error:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const getActivityIcon = (type) => {
-    const icons = {
-      sowedSeeds: '🌱',
-      appliedFertilizer: '🌿',
-      irrigated: '💧',
-      pestDisease: '🐛',
-      weeding: '🌿',
-      harvested: '🌾'
-    }
-    return icons[type] || '📝'
-  }
-
-  const getActivityLabel = (type) => {
-    const labels = {
-      en: {
-        sowedSeeds: 'Sowed Seeds',
-        appliedFertilizer: 'Applied Fertilizer',
-        irrigated: 'Irrigated',
-        pestDisease: 'Pest/Disease',
-        weeding: 'Weeding',
-        harvested: 'Harvested'
-      },
-      ml: {
-        sowedSeeds: 'വിത്ത് വിതച്ചു',
-        appliedFertilizer: 'വളം ഇട്ടു',
-        irrigated: 'നനച്ചു',
-        pestDisease: 'കീടം/രോഗം',
-        weeding: 'കളപറിച്ചു',
-        harvested: 'വിളവെടുത്തു'
-      }
-    }
-    return labels[language][type] || type
-  }
-
-  if (isLoading) {
-    return (
-      <div className="container flex items-center justify-center" style={{ minHeight: '100vh' }}>
-        <div className="text-center">
-          <div className="loading-spinner mb-3" />
-          <p>{language === 'en' ? 'Loading dashboard...' : 'ഡാഷ്‌ബോർഡ് ലോഡ് ചെയ്യുന്നു...'}</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
-    <div className="container dashboard-container fade-in">
+    <div className="min-h-screen bg-gray-50 pb-20">
       <button 
-        className="language-toggle"
+        className="absolute top-4 right-4 bg-white border-2 border-gray-300 rounded-lg px-3 py-1 text-sm font-semibold shadow-md z-10"
         onClick={toggleLanguage}
-        aria-label="Toggle Language"
       >
         {language === 'en' ? 'മലയാളം' : 'English'}
       </button>
 
-      {/* Header */}
-      <div className="mb-4">
-        <h1 className="font-bold text-primary" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-          {language === 'en' ? 'Dashboard' : 'ഡാഷ്‌ബോർഡ്'}
-        </h1>
-        {farmData && (
-          <p className="text-gray">
-            {farmData.name} • {farmData.location}
-          </p>
-        )}
-      </div>
+      <div className="p-4">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-green-600 mb-2">
+            {language === 'en' ? 'Dashboard' : 'ഡാഷ്‌ബോർഡ്'}
+          </h1>
+          {farmData && (
+            <p className="text-gray-600">
+              {farmData.name} • {farmData.location}
+            </p>
+          )}
+        </div>
 
-      {/* Weather Card */}
-      {weather && (
-        <div className="card mb-4 slide-up">
+        {/* Weather Card */}
+        <div className="bg-white rounded-lg shadow-md p-4 mb-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold mb-1">
                 {language === 'en' ? 'Weather' : 'കാലാവസ്ഥ'}
               </h3>
-              <p className="text-gray" style={{ fontSize: '0.9rem' }}>
-                {weather.description}
+              <p className="text-gray-600 text-sm">
+                {language === 'en' ? 'Partly cloudy' : 'ഭാഗികമായി മേഘാവൃതം'}
               </p>
             </div>
             <div className="text-center">
-              <div style={{ fontSize: '2rem' }}>🌤️</div>
-              <p className="font-bold">{weather.temperature}°C</p>
+              <div className="text-3xl mb-1">🌤️</div>
+              <p className="font-bold">28°C</p>
             </div>
           </div>
-          <div className="flex justify-between mt-3 pt-3" style={{ borderTop: '1px solid var(--gray-200)' }}>
-            <span className="text-muted" style={{ fontSize: '0.875rem' }}>
-              {language === 'en' ? 'Humidity' : 'ആർദ്രത'}: {weather.humidity}%
+          <div className="flex justify-between mt-3 pt-3 border-t border-gray-200">
+            <span className="text-gray-500 text-sm">
+              {language === 'en' ? 'Humidity' : 'ആർദ്രത'}: 75%
             </span>
           </div>
         </div>
-      )}
 
-      {/* Farm Overview */}
-      {farmData && (
-        <div className="card mb-4 slide-up">
+        {/* Farm Overview */}
+        {farmData && (
+          <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+            <h3 className="font-semibold mb-3">
+              {language === 'en' ? 'Farm Overview' : 'കൃഷിയിട വിവരണം'}
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <p className="text-gray-500 text-sm">
+                  {language === 'en' ? 'Current Crop' : 'നിലവിലെ വിള'}
+                </p>
+                <p className="font-medium">{farmData.currentCrop}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 text-sm">
+                  {language === 'en' ? 'Land Size' : 'ഭൂമിയുടെ വലിപ്പം'}
+                </p>
+                <p className="font-medium">{farmData.landSize} {farmData.landUnit}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 text-sm">
+                  {language === 'en' ? 'Soil Type' : 'മണ്ണിന്റെ തരം'}
+                </p>
+                <p className="font-medium">{farmData.soilType}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 text-sm">
+                  {language === 'en' ? 'Irrigation' : 'ജലസേചനം'}
+                </p>
+                <p className="font-medium">
+                  {farmData.irrigation 
+                    ? (language === 'en' ? 'Available' : 'ലഭ്യമാണ്')
+                    : (language === 'en' ? 'Not Available' : 'ലഭ്യമല്ല')
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-lg shadow-md p-4">
           <h3 className="font-semibold mb-3">
-            {language === 'en' ? 'Farm Overview' : 'കൃഷിയിട വിവരണം'}
+            {language === 'en' ? 'Quick Actions' : 'പെട്ടെന്നുള്ള പ്രവർത്തനങ്ങൾ'}
           </h3>
-          <div className="grid grid-cols-2 gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
-            <div>
-              <p className="text-muted" style={{ fontSize: '0.875rem' }}>
-                {language === 'en' ? 'Current Crop' : 'നിലവിലെ വിള'}
+          <div className="grid grid-cols-2 gap-3">
+            <button className="bg-green-100 text-green-700 p-3 rounded-lg text-center">
+              <div className="text-2xl mb-1">💬</div>
+              <p className="text-sm font-medium">
+                {language === 'en' ? 'Ask AI' : 'AI യോട് ചോദിക്കുക'}
               </p>
-              <p className="font-medium">{farmData.currentCrop}</p>
-            </div>
-            <div>
-              <p className="text-muted" style={{ fontSize: '0.875rem' }}>
-                {language === 'en' ? 'Land Size' : 'ഭൂമിയുടെ വലിപ്പം'}
+            </button>
+            <button className="bg-blue-100 text-blue-700 p-3 rounded-lg text-center">
+              <div className="text-2xl mb-1">📝</div>
+              <p className="text-sm font-medium">
+                {language === 'en' ? 'Log Activity' : 'പ്രവർത്തനം രേഖപ്പെടുത്തുക'}
               </p>
-              <p className="font-medium">{farmData.landSize} {farmData.landUnit}</p>
-            </div>
-            <div>
-              <p className="text-muted" style={{ fontSize: '0.875rem' }}>
-                {language === 'en' ? 'Soil Type' : 'മണ്ണിന്റെ തരം'}
+            </button>
+            <button className="bg-yellow-100 text-yellow-700 p-3 rounded-lg text-center">
+              <div className="text-2xl mb-1">💰</div>
+              <p className="text-sm font-medium">
+                {language === 'en' ? 'Market Prices' : 'വിപണി വില'}
               </p>
-              <p className="font-medium">{farmData.soilType}</p>
-            </div>
-            <div>
-              <p className="text-muted" style={{ fontSize: '0.875rem' }}>
-                {language === 'en' ? 'Irrigation' : 'ജലസേചനം'}
+            </button>
+            <button className="bg-red-100 text-red-700 p-3 rounded-lg text-center">
+              <div className="text-2xl mb-1">🔔</div>
+              <p className="text-sm font-medium">
+                {language === 'en' ? 'Alerts' : 'മുന്നറിയിപ്പുകൾ'}
               </p>
-              <p className="font-medium">
-                {farmData.irrigation 
-                  ? (language === 'en' ? 'Available' : 'ലഭ്യമാണ്')
-                  : (language === 'en' ? 'Not Available' : 'ലഭ്യമല്ല')
-                }
-              </p>
-            </div>
+            </button>
           </div>
         </div>
-      )}
-
-      {/* Recent Activities */}
-      <div className="card mb-4 slide-up">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold">
-            {language === 'en' ? 'Recent Activities' : 'സമീപകാല പ്രവർത്തനങ്ങൾ'}
-          </h3>
-          <Link to="/activity" className="text-primary" style={{ fontSize: '0.875rem' }}>
-            {language === 'en' ? 'View All' : 'എല്ലാം കാണുക'}
-          </Link>
-        </div>
-        
-        {recentActivities.length > 0 ? (
-          <div className="space-y-3">
-            {recentActivities.map((activity, index) => (
-              <div key={index} className="flex items-center gap-3 p-2 rounded" style={{ backgroundColor: 'var(--gray-50)' }}>
-                <span style={{ fontSize: '1.5rem' }}>{getActivityIcon(activity.type)}</span>
-                <div className="flex-1">
-                  <p className="font-medium" style={{ fontSize: '0.9rem' }}>
-                    {getActivityLabel(activity.type)}
-                  </p>
-                  <p className="text-muted" style={{ fontSize: '0.8rem' }}>
-                    {formatTimeAgo(activity.timestamp || activity.createdAt, language)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted text-center py-4">
-            {language === 'en' ? 'No recent activities' : 'സമീപകാല പ്രവർത്തനങ്ങളൊന്നുമില്ല'}
-          </p>
-        )}
-      </div>
-
-      {/* Alerts */}
-      <div className="card slide-up">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-semibold">
-            {language === 'en' ? 'Alerts' : 'മുന്നറിയിപ്പുകൾ'}
-          </h3>
-          <Link to="/alerts" className="text-primary" style={{ fontSize: '0.875rem' }}>
-            {language === 'en' ? 'View All' : 'എല്ലാം കാണുക'}
-          </Link>
-        </div>
-        
-        {alerts.length > 0 ? (
-          <div className="space-y-3">
-            {alerts.map((alert, index) => (
-              <div key={index} className={`alert alert-${alert.priority === 'high' ? 'warning' : 'info'}`}>
-                <div className="flex items-start gap-2">
-                  <span style={{ fontSize: '1.2rem' }}>
-                    {alert.type === 'weather' ? '🌤️' : 
-                     alert.type === 'pest' ? '🐛' : 
-                     alert.type === 'price' ? '💰' : '📢'}
-                  </span>
-                  <div className="flex-1">
-                    <p className="font-medium" style={{ fontSize: '0.9rem' }}>
-                      {alert.title}
-                    </p>
-                    <p style={{ fontSize: '0.8rem', marginTop: '0.25rem' }}>
-                      {alert.message}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted text-center py-4">
-            {language === 'en' ? 'No alerts' : 'മുന്നറിയിപ്പുകളൊന്നുമില്ല'}
-          </p>
-        )}
       </div>
     </div>
   )

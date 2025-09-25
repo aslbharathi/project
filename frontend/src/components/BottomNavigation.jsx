@@ -35,17 +35,23 @@ const BottomNavigation = () => {
   ]
 
   return (
-    <nav className="bottom-nav">
-      {navItems.map((item) => (
-        <Link
-          key={item.path}
-          to={item.path}
-          className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-        >
-          <span style={{ fontSize: '1.2rem' }}>{item.icon}</span>
-          <span>{item.label}</span>
-        </Link>
-      ))}
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-1">
+      <div className="flex justify-around">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
+              location.pathname === item.path 
+                ? 'text-green-600 bg-green-50' 
+                : 'text-gray-500 hover:text-green-600'
+            }`}
+          >
+            <span className="text-xl mb-1">{item.icon}</span>
+            <span className="text-xs font-medium">{item.label}</span>
+          </Link>
+        ))}
+      </div>
     </nav>
   )
 }

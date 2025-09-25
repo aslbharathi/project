@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { STORAGE_KEYS } from '../utils/constants'
 
 const AuthContext = createContext()
 
@@ -22,8 +21,8 @@ const AuthProvider = ({ children }) => {
 
   const checkAuthStatus = () => {
     try {
-      const savedToken = localStorage.getItem(STORAGE_KEYS.TOKEN)
-      const savedUser = localStorage.getItem(STORAGE_KEYS.USER)
+      const savedToken = localStorage.getItem('krishiSakhiToken')
+      const savedUser = localStorage.getItem('krishiSakhiUser')
       
       if (savedToken && savedUser) {
         setToken(savedToken)
@@ -54,8 +53,8 @@ const AuthProvider = ({ children }) => {
       setUser(mockUser)
       setToken(mockToken)
       
-      localStorage.setItem(STORAGE_KEYS.TOKEN, mockToken)
-      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(mockUser))
+      localStorage.setItem('krishiSakhiToken', mockToken)
+      localStorage.setItem('krishiSakhiUser', JSON.stringify(mockUser))
       
       return { success: true, user: mockUser, token: mockToken }
     } catch (error) {
@@ -84,8 +83,8 @@ const AuthProvider = ({ children }) => {
       setUser(newUser)
       setToken(mockToken)
       
-      localStorage.setItem(STORAGE_KEYS.TOKEN, mockToken)
-      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(newUser))
+      localStorage.setItem('krishiSakhiToken', mockToken)
+      localStorage.setItem('krishiSakhiUser', JSON.stringify(newUser))
       
       return { success: true, user: newUser, token: mockToken }
     } catch (error) {
@@ -97,15 +96,15 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null)
     setToken(null)
-    localStorage.removeItem(STORAGE_KEYS.TOKEN)
-    localStorage.removeItem(STORAGE_KEYS.USER)
-    localStorage.removeItem(STORAGE_KEYS.FARM_DATA)
+    localStorage.removeItem('krishiSakhiToken')
+    localStorage.removeItem('krishiSakhiUser')
+    localStorage.removeItem('krishiSakhiFarmData')
   }
 
   const updateUser = (userData) => {
     const updatedUser = { ...user, ...userData }
     setUser(updatedUser)
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updatedUser))
+    localStorage.setItem('krishiSakhiUser', JSON.stringify(updatedUser))
   }
 
   const value = {
