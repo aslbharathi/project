@@ -3,20 +3,14 @@
   "version": "2.0.0",
   "description": "Digital Farming Assistant for Kerala Government",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
+    "install:all": "npm install && cd frontend && npm install",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && uvicorn app.main:app --reload --port 8000",
+    "dev:backend": "echo 'Backend requires Python setup. Run: cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload --port 8000'",
     "build": "cd frontend && npm run build",
-    "install:all": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
-    "start:frontend": "cd frontend && npm run dev",
-    "start:backend": "cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000",
-    "test": "cd frontend && npm test",
-    "lint": "cd frontend && npm run lint"
+    "start": "npm run dev:frontend",
+    "test": "cd frontend && npm test"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
@@ -27,18 +21,8 @@
     "kerala",
     "government",
     "ai",
-    "malayalam",
-    "voice",
-    "mobile"
+    "malayalam"
   ],
   "author": "Kerala Government Agriculture Department",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kerala-govt/krishi-sakhi"
-  },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
-  }
+  "license": "MIT"
 }
