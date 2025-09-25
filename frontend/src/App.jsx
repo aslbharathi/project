@@ -9,17 +9,40 @@ import AlertsReminders from './components/AlertsReminders'
 import BottomNavigation from './components/BottomNavigation'
 import LanguageProvider from './contexts/LanguageContext'
 import FarmDataProvider from './contexts/FarmDataContext'
+import { farmService } from './services/farmService'
 
 function App() {
   const [isSetupComplete, setIsSetupComplete] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check if farm setup is complete
-    const farmData = localStorage.getItem('krishiSakhiFarmData')
-    if (farmData) {
-      setIsSetupComplete(true)
+    const checkSetupStatus = async () => {
+      try {
+        const farmData = await farmService.getFarmData()
+        setIsSetupComplete(!!farmData)
+      } catch (error) {
+        console.error('Error checking setup status:', error)
+        // Fallback to localStorage check
+        const localFarmData = localStorage.getItem('krishiSakhiFarmData')
+        setIsSetupComplete(!!localFarmData)
+      } finally {
+        setIsLoading(false)
+      }
     }
+
+    checkSetupStatus()
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="container flex items-center justify-center" style={{ minHeight: '100vh' }}>
+        <div className="text-center">
+          <div className="loading-spinner mb-3" />
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <LanguageProvider>
