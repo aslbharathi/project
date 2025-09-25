@@ -8,11 +8,11 @@ export const generateAIResponse = async (message, userId) => {
     const lowerMessage = message.toLowerCase()
     
     // Pest/Disease related queries
-    if (lowerMessage.includes('pest') || lowerMessage.includes('bug') || lowerMessage.includes('കീടം') || lowerMessage.includes('പുഴു')) {
+    if (lowerMessage.includes('pest') || lowerMessage.includes('bug') || lowerMessage.includes('insect') || lowerMessage.includes('കീടം') || lowerMessage.includes('പുഴു')) {
       return {
         content: farm ? 
           `For your ${farm.currentCrop} crop, I recommend checking for common pests. Use neem oil spray in the evening. Avoid spraying during rain or strong sunlight. Monitor your plants daily for early detection.` :
-          'I recommend checking for common pests in your crops. Use neem oil spray in the evening for natural pest control.',
+          'I recommend checking for common pests in your crops. Use neem oil spray in the evening for natural pest control. Inspect plants regularly and remove affected parts immediately.',
         timestamp: new Date().toISOString()
       }
     }

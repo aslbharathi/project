@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useFarmData } from '../contexts/FarmDataContext'
 import { farmService } from '../services/farmService'
@@ -22,11 +23,13 @@ const Dashboard = () => {
       
       // Load recent activities
       const activitiesData = await farmService.getActivities()
-      setRecentActivities(Array.isArray(activitiesData) ? activitiesData.slice(0, 3) : [])
+      const activities = activitiesData?.data || activitiesData || []
+      setRecentActivities(Array.isArray(activities) ? activities.slice(0, 3) : [])
       
       // Load alerts
       const alertsData = await farmService.getAlerts()
-      setAlerts(Array.isArray(alertsData) ? alertsData.slice(0, 3) : [])
+      const alerts = alertsData?.data || alertsData || []
+      setAlerts(Array.isArray(alerts) ? alerts.slice(0, 3) : [])
       
       // Mock weather data
       setWeather({
@@ -180,9 +183,9 @@ const Dashboard = () => {
           <h3 className="font-semibold">
             {language === 'en' ? 'Recent Activities' : 'സമീപകാല പ്രവർത്തനങ്ങൾ'}
           </h3>
-          <a href="/activity" className="text-primary" style={{ fontSize: '0.875rem' }}>
+          <Link to="/activity" className="text-primary" style={{ fontSize: '0.875rem' }}>
             {language === 'en' ? 'View All' : 'എല്ലാം കാണുക'}
-          </a>
+          </Link>
         </div>
         
         {recentActivities.length > 0 ? (
@@ -214,9 +217,9 @@ const Dashboard = () => {
           <h3 className="font-semibold">
             {language === 'en' ? 'Alerts' : 'മുന്നറിയിപ്പുകൾ'}
           </h3>
-          <a href="/alerts" className="text-primary" style={{ fontSize: '0.875rem' }}>
+          <Link to="/alerts" className="text-primary" style={{ fontSize: '0.875rem' }}>
             {language === 'en' ? 'View All' : 'എല്ലാം കാണുക'}
-          </a>
+          </Link>
         </div>
         
         {alerts.length > 0 ? (

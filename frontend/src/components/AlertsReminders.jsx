@@ -17,7 +17,8 @@ const AlertsReminders = () => {
     try {
       setIsLoading(true)
       const data = await farmService.getAlerts()
-      setAlerts(Array.isArray(data) ? data : [])
+      const alerts = data?.data || data || []
+      setAlerts(Array.isArray(alerts) ? alerts : [])
     } catch (error) {
       console.error('Failed to load alerts:', error)
       // Add sample alerts for demo

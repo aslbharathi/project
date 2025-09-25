@@ -28,7 +28,8 @@ const ChatInterface = () => {
   const loadChatHistory = async () => {
     try {
       const history = await farmService.getChatHistory()
-      setMessages(Array.isArray(history) ? history : [])
+      const messages = history?.data || history || []
+      setMessages(Array.isArray(messages) ? messages : [])
     } catch (error) {
       console.error('Failed to load chat history:', error)
       // Add welcome message if no history
@@ -90,13 +91,13 @@ const ChatInterface = () => {
       const response = await farmService.sendMessage({
         message: inputMessage.trim(),
         language: language,
-        session_id: null
+        sessionId: null
       })
       
       const aiMessage = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
-        content: response.data?.ai_message?.content || response.response || response.content,
+        content: response.data?.ai_message?.content || response.data?.aiMessage?.content || response.response || response.content || 'Sorry, I could not process your request.',
         sender: 'ai',
         timestamp: new Date().toISOString()
       }

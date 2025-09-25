@@ -24,7 +24,8 @@ const ActivityLog = () => {
     try {
       setIsLoading(true)
       const data = await farmService.getActivities()
-      setActivities(Array.isArray(data) ? data : [])
+      const activities = data?.data || data || []
+      setActivities(Array.isArray(activities) ? activities : [])
     } catch (error) {
       console.error('Failed to load activities:', error)
       setActivities([])
@@ -44,9 +45,11 @@ const ActivityLog = () => {
       await farmService.addActivity(newActivity)
       setNewActivity({ type: '', crop: '', notes: '', location: '' })
       setShowAddForm(false)
-      loadActivities()
+      await loadActivities()
     } catch (error) {
       console.error('Failed to add activity:', error)
+      // Show error message to user
+      alert(language === 'en' ? 'Failed to add activity' : 'പ്രവർത്തനം ചേർക്കാൻ കഴിഞ്ഞില്ല')
     }
   }
 

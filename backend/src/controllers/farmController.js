@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import Farm from '../models/Farm.js'
 import Activity from '../models/Activity.js'
 import { validationResult } from 'express-validator'
@@ -50,12 +51,15 @@ export const saveFarmProfile = async (req, res) => {
     if (farm) {
       // Update existing farm
       Object.assign(farm, farmData)
+      farm.updatedAt = new Date()
       await farm.save()
     } else {
       // Create new farm
       farm = new Farm({
         userId,
-        ...farmData
+        ...farmData,
+        createdAt: new Date(),
+        updatedAt: new Date()
       })
       await farm.save()
     }

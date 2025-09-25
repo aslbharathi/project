@@ -49,7 +49,7 @@ export const sendMessage = async (req, res) => {
     }
 
     const userId = req.headers['x-user-id'] || generateUserId(req)
-    const { message, sessionId: providedSessionId, hasImage, imageUrl } = req.body
+    const { message, sessionId: providedSessionId, language = 'en', hasImage, imageUrl } = req.body
 
     const sessionId = providedSessionId || generateSessionId()
 
@@ -69,6 +69,7 @@ export const sendMessage = async (req, res) => {
       type: 'user',
       content: message,
       sender: 'user',
+      language: language,
       hasImage: hasImage || false,
       imageUrl: imageUrl || null,
       timestamp: new Date()
@@ -84,6 +85,7 @@ export const sendMessage = async (req, res) => {
       type: 'ai',
       content: aiResponse.content,
       sender: 'ai',
+      language: language,
       timestamp: new Date()
     }
 
