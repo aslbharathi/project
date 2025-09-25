@@ -4,7 +4,8 @@ export const farmService = {
   // Farm data operations
   async getFarmData() {
     try {
-      return await api.get('/farm/profile')
+      const response = await api.get('/farm/profile')
+      return response.data || response
     } catch (error) {
       // Fallback to localStorage for offline support
       const localData = localStorage.getItem('krishiSakhiFarmData')
@@ -17,7 +18,7 @@ export const farmService = {
       const response = await api.post('/farm/profile', farmData)
       // Also save locally for offline support
       localStorage.setItem('krishiSakhiFarmData', JSON.stringify(farmData))
-      return response
+      return response.data || response
     } catch (error) {
       // Save locally if API fails
       localStorage.setItem('krishiSakhiFarmData', JSON.stringify(farmData))
@@ -39,7 +40,8 @@ export const farmService = {
   // Activity operations
   async getActivities() {
     try {
-      return await api.get('/farm/activities')
+      const response = await api.get('/farm/activities')
+      return response.data || response
     } catch (error) {
       const localActivities = localStorage.getItem('krishiSakhiActivities')
       return localActivities ? JSON.parse(localActivities) : []
@@ -54,7 +56,7 @@ export const farmService = {
       const newActivity = { ...activity, id: Date.now(), timestamp: new Date().toISOString() }
       const updatedActivities = [newActivity, ...localActivities]
       localStorage.setItem('krishiSakhiActivities', JSON.stringify(updatedActivities))
-      return response
+      return response.data || response
     } catch (error) {
       // Save locally if API fails
       const localActivities = JSON.parse(localStorage.getItem('krishiSakhiActivities') || '[]')
@@ -68,19 +70,21 @@ export const farmService = {
   // Chat operations
   async getChatHistory() {
     try {
-      return await api.get('/chat/history')
+      const response = await api.get('/chat/history')
+      return response.data || response
     } catch (error) {
       const localHistory = localStorage.getItem('krishiSakhiChatHistory')
       return localHistory ? JSON.parse(localHistory) : []
     }
   },
 
-  async sendMessage(message) {
+  async sendMessage(messageData) {
     try {
-      return await api.post('/chat/message', { message })
+      const response = await api.post('/chat/message', messageData)
+      return response
     } catch (error) {
       // Fallback to local AI response
-      return this.generateLocalResponse(message)
+      return this.generateLocalResponse(messageData.message || messageData)
     }
   },
 
@@ -111,7 +115,8 @@ export const farmService = {
   // Alerts operations
   async getAlerts() {
     try {
-      return await api.get('/alerts')
+      const response = await api.get('/alerts')
+      return response.data || response
     } catch (error) {
       // Return sample alerts for offline mode
       return this.getSampleAlerts()

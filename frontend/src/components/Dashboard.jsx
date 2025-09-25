@@ -88,7 +88,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="container" style={{ paddingBottom: '100px', paddingTop: '1rem' }}>
+    <div className="container dashboard-container">
       <button 
         className="language-toggle"
         onClick={toggleLanguage}

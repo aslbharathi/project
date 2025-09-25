@@ -87,12 +87,16 @@ const ChatInterface = () => {
     setIsLoading(true)
 
     try {
-      const response = await farmService.sendMessage(inputMessage.trim())
+      const response = await farmService.sendMessage({
+        message: inputMessage.trim(),
+        language: language,
+        session_id: null
+      })
       
       const aiMessage = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
-        content: response.response || response.content,
+        content: response.data?.ai_message?.content || response.response || response.content,
         sender: 'ai',
         timestamp: new Date().toISOString()
       }
@@ -138,7 +142,7 @@ const ChatInterface = () => {
   }
 
   return (
-    <div className="container" style={{ height: '100vh', display: 'flex', flexDirection: 'column', paddingBottom: '100px' }}>
+    <div className="container chat-container">
       <button 
         className="language-toggle"
         onClick={toggleLanguage}
