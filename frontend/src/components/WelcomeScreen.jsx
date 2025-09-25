@@ -1,142 +1,57 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useLanguage } from '../contexts/LanguageContext'
+import { Sprout, Users, TrendingUp } from 'lucide-react'
 
 const WelcomeScreen = () => {
-  const navigate = useNavigate()
-  const { language, toggleLanguage, t } = useLanguage()
-
-  const handleGetStarted = () => {
-    navigate('/signup')
-  }
-
-  const handleLogin = () => {
-    navigate('/login')
-  }
-
   return (
-    <div className="container" style={{ minHeight: '100vh', paddingTop: '2rem' }}>
-      <button 
-        className="language-toggle"
-        onClick={toggleLanguage}
-        aria-label="Toggle Language"
-      >
-        {language === 'en' ? 'മലയാളം' : 'English'}
-      </button>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex flex-col">
+      {/* Header */}
+      <div className="bg-green-600 text-white p-4 text-center">
+        <h1 className="text-2xl font-bold">കൃഷി സഖി</h1>
+        <p className="text-green-100">Kerala Government - Department of Agriculture</p>
+      </div>
 
-      <div className="text-center" style={{ paddingTop: '4rem' }}>
-        <div className="mb-5">
-          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🌾</div>
-          <h1 className="font-bold" style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--primary-green)' }}>
-            {language === 'en' ? 'Krishi Sakhi' : 'കൃഷി സഖി'}
-          </h1>
-          <p className="text-gray" style={{ fontSize: '1.1rem', lineHeight: '1.6' }}>
-            {language === 'en' 
-              ? 'Your Digital Farming Assistant' 
-              : 'നിങ്ങളുടെ ഡിജിറ്റൽ കൃഷി സഖി'
-            }
-          </p>
-          <p className="text-muted" style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-            {language === 'en' 
-              ? 'Kerala Government Agriculture Department'
-              : 'കേരള സർക്കാർ കൃഷി വകുപ്പ്'
-            }
-          </p>
-        </div>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6">
+        <div className="max-w-md w-full text-center">
+          {/* Logo */}
+          <div className="mb-8">
+            <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sprout className="w-12 h-12 text-white" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">കൃഷി സഖി</h2>
+            <p className="text-gray-600">നിങ്ങളുടെ വ്യക്തിഗത കൃഷി സഹായി</p>
+          </div>
 
-        <div className="space-y-3 mb-5">
-          <div className="card" style={{ textAlign: 'left' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <span style={{ fontSize: '1.5rem' }}>💬</span>
-              <div>
-                <h3 className="font-semibold">
-                  {language === 'en' ? 'AI Chat Assistant' : 'AI ചാറ്റ് അസിസ്റ്റന്റ്'}
-                </h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                  {language === 'en' 
-                    ? 'Get farming advice in Malayalam or English'
-                    : 'മലയാളത്തിലോ ഇംഗ്ലീഷിലോ കൃഷി ഉപദേശം നേടുക'
-                  }
-                </p>
-              </div>
+          {/* Features */}
+          <div className="grid grid-cols-1 gap-4 mb-8">
+            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+              <Users className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-800">വിദഗ്ധ ഉപദേശം</h3>
+              <p className="text-sm text-gray-600">കൃഷി വിദഗ്ധരുടെ സഹായം</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+              <TrendingUp className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-800">വിപണി വില</h3>
+              <p className="text-sm text-gray-600">തത്സമയ വിപണി വിവരങ്ങൾ</p>
             </div>
           </div>
 
-          <div className="card" style={{ textAlign: 'left' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <span style={{ fontSize: '1.5rem' }}>🏛️</span>
-              <div>
-                <h3 className="font-semibold">
-                  {language === 'en' ? 'Government Schemes' : 'സർക്കാർ പദ്ധതികൾ'}
-                </h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                  {language === 'en' 
-                    ? 'Auto-eligibility for PM-KISAN and Kerala schemes'
-                    : 'പിഎം-കിസാൻ, കേരള പദ്ധതികൾക്കുള്ള യോഗ്യത പരിശോധന'
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="card" style={{ textAlign: 'left' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <span style={{ fontSize: '1.5rem' }}>💰</span>
-              <div>
-                <h3 className="font-semibold">
-                  {language === 'en' ? 'Market Price Board' : 'മാർക്കറ്റ് വില ബോർഡ്'}
-                </h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                  {language === 'en' 
-                    ? 'Live prices and sell your crops directly'
-                    : 'തത്സമയ വിലകളും നേരിട്ട് വിളകൾ വിൽക്കാനും'
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="card" style={{ textAlign: 'left' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <span style={{ fontSize: '1.5rem' }}>🌤️</span>
-              <div>
-                <h3 className="font-semibold">
-                  {language === 'en' ? 'Weather Alerts' : 'കാലാവസ്ഥാ മുന്നറിയിപ്പുകൾ'}
-                </h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                  {language === 'en' 
-                    ? 'Location-based weather notifications'
-                    : 'സ്ഥാന അടിസ്ഥാനത്തിലുള്ള കാലാവസ്ഥാ അറിയിപ്പുകൾ'
-                  }
-                </p>
-              </div>
-            </div>
+          {/* Action Buttons */}
+          <div className="space-y-4">
+            <button className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors">
+              ആരംഭിക്കുക - സൈൻ അപ്പ്
+            </button>
+            <button className="w-full border-2 border-green-600 text-green-600 py-4 px-6 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors">
+              ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ? ലോഗിൻ
+            </button>
           </div>
         </div>
+      </div>
 
-        <div className="space-y-3">
-          <button 
-            className="btn btn-primary w-full"
-            onClick={handleGetStarted}
-            style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}
-          >
-            {language === 'en' ? 'Get Started - Sign Up' : 'ആരംഭിക്കുക - സൈൻ അപ്പ്'}
-          </button>
-
-          <button 
-            className="btn btn-secondary w-full"
-            onClick={handleLogin}
-            style={{ fontSize: '1rem', padding: '0.875rem 2rem' }}
-          >
-            {language === 'en' ? 'Already have account? Login' : 'ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ? ലോഗിൻ'}
-          </button>
-        </div>
-
-        <p className="text-muted mt-4" style={{ fontSize: '0.85rem' }}>
-          {language === 'en' 
-            ? 'Works offline • Voice support • Free to use'
-            : 'ഓഫ്‌ലൈനിൽ പ്രവർത്തിക്കുന്നു • വോയ്‌സ് സപ്പോർട്ട് • സൗജന്യം'
-          }
+      {/* Footer */}
+      <div className="bg-gray-100 p-4 text-center">
+        <p className="text-sm text-gray-600">
+          © 2024 Kerala Government - Department of Agriculture
         </p>
       </div>
     </div>
