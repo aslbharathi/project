@@ -7,7 +7,11 @@ const WelcomeScreen = () => {
   const { language, toggleLanguage, t } = useLanguage()
 
   const handleGetStarted = () => {
-    navigate('/setup')
+    navigate('/signup')
+  }
+
+  const handleLogin = () => {
+    navigate('/login')
   }
 
   return (
@@ -32,6 +36,12 @@ const WelcomeScreen = () => {
               : 'നിങ്ങളുടെ ഡിജിറ്റൽ കൃഷി സഖി'
             }
           </p>
+          <p className="text-muted" style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+            {language === 'en' 
+              ? 'Kerala Government Agriculture Department'
+              : 'കേരള സർക്കാർ കൃഷി വകുപ്പ്'
+            }
+          </p>
         </div>
 
         <div className="space-y-3 mb-5">
@@ -54,6 +64,40 @@ const WelcomeScreen = () => {
 
           <div className="card" style={{ textAlign: 'left' }}>
             <div className="flex items-center gap-3 mb-3">
+              <span style={{ fontSize: '1.5rem' }}>🏛️</span>
+              <div>
+                <h3 className="font-semibold">
+                  {language === 'en' ? 'Government Schemes' : 'സർക്കാർ പദ്ധതികൾ'}
+                </h3>
+                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
+                  {language === 'en' 
+                    ? 'Auto-eligibility for PM-KISAN and Kerala schemes'
+                    : 'പിഎം-കിസാൻ, കേരള പദ്ധതികൾക്കുള്ള യോഗ്യത പരിശോധന'
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="card" style={{ textAlign: 'left' }}>
+            <div className="flex items-center gap-3 mb-3">
+              <span style={{ fontSize: '1.5rem' }}>💰</span>
+              <div>
+                <h3 className="font-semibold">
+                  {language === 'en' ? 'Market Price Board' : 'മാർക്കറ്റ് വില ബോർഡ്'}
+                </h3>
+                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
+                  {language === 'en' 
+                    ? 'Live prices and sell your crops directly'
+                    : 'തത്സമയ വിലകളും നേരിട്ട് വിളകൾ വിൽക്കാനും'
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="card" style={{ textAlign: 'left' }}>
+            <div className="flex items-center gap-3 mb-3">
               <span style={{ fontSize: '1.5rem' }}>🌤️</span>
               <div>
                 <h3 className="font-semibold">
@@ -68,34 +112,27 @@ const WelcomeScreen = () => {
               </div>
             </div>
           </div>
-
-          <div className="card" style={{ textAlign: 'left' }}>
-            <div className="flex items-center gap-3 mb-3">
-              <span style={{ fontSize: '1.5rem' }}>📝</span>
-              <div>
-                <h3 className="font-semibold">
-                  {language === 'en' ? 'Activity Tracking' : 'പ്രവർത്തന ട്രാക്കിംഗ്'}
-                </h3>
-                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                  {language === 'en' 
-                    ? 'Log and track your farming activities'
-                    : 'നിങ്ങളുടെ കൃഷി പ്രവർത്തനങ്ങൾ രേഖപ്പെടുത്തുക'
-                  }
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <button 
-          className="btn btn-primary w-full"
-          onClick={handleGetStarted}
-          style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}
-        >
-          {language === 'en' ? 'Get Started' : 'ആരംഭിക്കുക'}
-        </button>
+        <div className="space-y-3">
+          <button 
+            className="btn btn-primary w-full"
+            onClick={handleGetStarted}
+            style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}
+          >
+            {language === 'en' ? 'Get Started - Sign Up' : 'ആരംഭിക്കുക - സൈൻ അപ്പ്'}
+          </button>
 
-        <p className="text-muted mt-3" style={{ fontSize: '0.85rem' }}>
+          <button 
+            className="btn btn-secondary w-full"
+            onClick={handleLogin}
+            style={{ fontSize: '1rem', padding: '0.875rem 2rem' }}
+          >
+            {language === 'en' ? 'Already have account? Login' : 'ഇതിനകം അക്കൗണ്ട് ഉണ്ടോ? ലോഗിൻ'}
+          </button>
+        </div>
+
+        <p className="text-muted mt-4" style={{ fontSize: '0.85rem' }}>
           {language === 'en' 
             ? 'Works offline • Voice support • Free to use'
             : 'ഓഫ്‌ലൈനിൽ പ്രവർത്തിക്കുന്നു • വോയ്‌സ് സപ്പോർട്ട് • സൗജന്യം'
