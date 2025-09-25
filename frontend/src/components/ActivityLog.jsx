@@ -13,8 +13,10 @@ const ActivityLog = () => {
     type: '',
     crop: '',
     notes: '',
-    location: ''
+    location: '',
+    images: []
   })
+  const [uploadingImages, setUploadingImages] = useState(false)
 
   useEffect(() => {
     loadActivities()
@@ -43,7 +45,7 @@ const ActivityLog = () => {
 
     try {
       await farmService.addActivity(newActivity)
-      setNewActivity({ type: '', crop: '', notes: '', location: '' })
+      setNewActivity({ type: '', crop: '', notes: '', location: '', images: [] })
       setShowAddForm(false)
       await loadActivities()
     } catch (error) {
@@ -51,6 +53,32 @@ const ActivityLog = () => {
       // Show error message to user
       alert(language === 'en' ? 'Failed to add activity' : 'പ്രവർത്തനം ചേർക്കാൻ കഴിഞ്ഞില്ല')
     }
+  }
+
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files)
+    if (files.length === 0) return
+
+    setUploadingImages(true)
+    try {
+      const uploadedImages = await farmService.uploadImages(files)
+      setNewActivity(prev => ({
+        ...prev,
+        images: [...prev.images, ...uploadedImages]
+      }))
+    } catch (error) {
+      console.error('Image upload failed:', error)
+      alert(language === 'en' ? 'Failed to upload images' : 'ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല')
+    } finally {
+      setUploadingImages(false)
+    }
+  }
+
+  const removeImage = (index) => {
+    setNewActivity(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }))
   }
 
   const getActivityIcon = (type) => {
@@ -183,6 +211,52 @@ const ActivityLog = () => {
               />
             </div>
 
+            <div className="form-group">
+              <label className="form-label">
+                {language === 'en' ? 'Photos (Optional)' : 'ഫോട്ടോകൾ (ഓപ്ഷണൽ)'}
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+                className="form-input"
+                disabled={uploadingImages}
+              />
+              {uploadingImages && (
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="loading-spinner" style={{ width: '16px', height: '16px' }} />
+                  <span style={{ fontSize: '0.875rem' }}>
+                    {language === 'en' ? 'Uploading images...' : 'ചിത്രങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്നു...'}
+                  </span>
+                </div>
+              )}
+              
+              {/* Image Preview */}
+              {newActivity.images.length > 0 && (
+                <div className="mt-3">
+                  <div className="grid grid-cols-3 gap-2">
+                    {newActivity.images.map((image, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={image.url}
+                          alt={`Upload ${index + 1}`}
+                          className="w-full h-20 object-cover rounded"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button type="submit" className="btn btn-primary w-full">
               {language === 'en' ? 'Add Activity' : 'പ്രവർത്തനം ചേർക്കുക'}
             </button>
@@ -222,6 +296,28 @@ const ActivityLog = () => {
                     <p className="text-gray" style={{ fontSize: '0.85rem', fontStyle: 'italic' }}>
                       {activity.notes}
                     </p>
+                  )}
+                  
+                  {/* Activity Images */}
+                  {activity.images && activity.images.length > 0 && (
+                    <div className="mt-3">
+                      <div className="grid grid-cols-2 gap-2">
+                        {activity.images.slice(0, 4).map((image, imgIndex) => (
+                          <img
+                            key={imgIndex}
+                            src={image.url}
+                            alt={image.caption || `Activity image ${imgIndex + 1}`}
+                            className="w-full h-24 object-cover rounded cursor-pointer"
+                            onClick={() => window.open(image.url, '_blank')}
+                          />
+                        ))}
+                        {activity.images.length > 4 && (
+                          <div className="w-full h-24 bg-gray-200 rounded flex items-center justify-center text-gray-600">
+                            +{activity.images.length - 4} more
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>

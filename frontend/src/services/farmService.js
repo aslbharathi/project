@@ -134,5 +134,26 @@ export const farmService = {
         timestamp: new Date().toISOString()
       }
     ]
+  },
+
+  // Image upload operations
+  async uploadImages(files) {
+    try {
+      const formData = new FormData()
+      files.forEach((file, index) => {
+        formData.append(`images`, file)
+      })
+
+      const response = await api.post('/farm/upload-images', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      
+      return response.success ? response.data : response
+    } catch (error) {
+      console.error('Image upload error:', error)
+      throw error
+    }
   }
 }
