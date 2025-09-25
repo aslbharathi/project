@@ -77,4 +77,4 @@ export const GOVERNMENT_SCHEMES = [
     eligibility: ['all_farmers'],
     documents: ['land_records', 'sowing_certificate']
   }
-}
+]
